@@ -7,8 +7,9 @@
     "lint-format": "eslint \"**/*.ts\" --fix",
     "test": "jest --ci --detectOpenHandles --collectCoverage --testPathIgnorePatterns=.build",
     "test:dev": "npm run lint-format && npm run pretty && jest --detectOpenHandles --watchAll --collectCoverage  --testPathIgnorePatterns=.build",
-    "offline": "serverless offline start --reloadHandler --stage dev --region us-east-1",
-    "pretty": "prettier --write \"**/*.ts\""
+    "offline": "sls offline start --reloadHandler --stage dev --region us-east-1",
+    "pretty": "prettier --write \"**/*.ts\"",
+    "install-dynamodb": "sls dynamodb install --stage dev --region us-east-1"
   },
   "repository": {
     "type": "git",
@@ -40,12 +41,18 @@
     "ts-jest": "29.1.2",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "serverless-dynamodb-local": "0.2.40"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.525.0",
     "follow-redirects": "1.15.6",
     "serverless-tscpaths": "0.0.8"
+  },
+  "overrides": {
+    "serverless-dynamodb-local": {
+      "dynamodb-localhost": "https://github.com/99x/dynamodb-localhost#db30898f8c40932c7177be7b2f1a81360d12876d"
+    }
   },
   "husky": {
     "hooks": {

@@ -1,11 +1,16 @@
 import { DynamoDBClient, PutItemCommand, PutItemCommandInput } from '@aws-sdk/client-dynamodb';
+import environment from '@shared/environment';
 
 export class DatabaseService {
   static instance: DynamoDBClient;
 
   public static getInstance(): DynamoDBClient {
     if (!DatabaseService.instance) {
-      DatabaseService.instance = new DynamoDBClient();
+      const config = environment.DYNAMODB.IS_OFFLINE
+        ? { region: 'localhost', endpoint: 'http://localhost:8000' }
+        : { region: environment.DYNAMODB.STAGE };
+
+      DatabaseService.instance = new DynamoDBClient(config);
     }
 
     return DatabaseService.instance;

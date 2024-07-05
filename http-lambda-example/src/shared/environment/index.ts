@@ -1,6 +1,7 @@
 const DYNAMODB = {
-  TRANSACTIONS_NO_MONETARY_DIGITALS_TABLE_NAME:
-    process.env.TRANSACTIONS_NO_MONETARY_DIGITALS_TABLE_NAME || 'qa-digital-channels-non-monetary-transactions-v2',
+  IS_OFFLINE: process.env.IS_OFFLINE === 'true',
+  STAGE: process.env.STAGE || 'dev',
+  USER_TABLE_NAME: process.env.USER_TABLE_NAME || 'dev-user-table',
 } as const;
 
 const environment = {

@@ -14,6 +14,12 @@ custom:
   timeout: 29
   originCors:
   - https://my-company-domain.com
+  tableName: ${self:provider.environment.USER_TABLE_NAME}
+  dynamodb:
+    stages: ${self:provider.environment.STAGE}
+    start:
+      port: 8000
+      inMemory: true
 
 plugins:
 - serverless-esbuild
@@ -21,6 +27,7 @@ plugins:
 - serverless-plugin-resource-tagging
 - serverless-prune-plugin
 - serverless-offline
+- serverless-dynamodb-local
 
 provider:
   name: aws
@@ -40,11 +47,13 @@ provider:
   environment:
     REGION: ${opt:region}
     STAGE: ${opt:stage}
+    ACCOUNT_ID: '12345'
     DEPLOYMENT_BUCKET: my-custom-bucket-${opt:stage}
     VPC_SECURITY_GROUP_ID: aws-exampleSecurityGroupId-${opt:stage}
     VPC_SUBNET_ID: aws-exampleSubnetId-${opt:stage}
     API_GATEWAY_ID: aws-exampleApiGatewayId-${opt:stage}
     API_GATEWAY_RESOURCE_ID: aws-exampleApiGatewayResourceId-${opt:stage}
+    USER_TABLE_NAME: ${opt:stage}-user-table
 
   apiGateway:
     restApiId:
@@ -53,9 +62,19 @@ provider:
       /api/http-example/:
         'Fn::ImportValue': ${self:provider.environment.API_GATEWAY_RESOURCE_ID}
 
-  # iam:
-  #   role:
-  #     statements:
+  iam:
+    role:
+      statements:
+      - Effect: Allow
+        Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        Resource:
+        - 'arn:aws:dynamodb:${self:provider.environment.REGION}:${self:provider.environment.ACCOUNT_ID}:table/${self:provider.environment.USER_TABLE_NAME}'
 
 package:
   individually: true
@@ -76,7 +95,7 @@ functions:
         path: /api/http-example/products
         cors:
           origins: ${self:custom.originCors}
-    
+
   get-product:
     handler: src/handlers/get-product/get-product.handler
     description: List all products
@@ -89,13 +108,13 @@ functions:
         method: GET
         integration: lambda
         path: /api/http-example/products/{product_id}
-        request: 
+        request:
           parameters:
             paths:
               product_id: true
         cors:
           origins: ${self:custom.originCors}
-    
+
   create-product:
     handler: src/handlers/create-product/create-product.handler
     description: create a product
@@ -110,7 +129,7 @@ functions:
         path: /api/http-example/products
         cors:
           origins: ${self:custom.originCors}
-    
+
   update-product:
     handler: src/handlers/update-product/update-product.handler
     description: update a product
@@ -125,7 +144,7 @@ functions:
         path: /api/http-example/products
         cors:
           origins: ${self:custom.originCors}
-    
+
   delete-product:
     handler: src/handlers/delete-product/delete-product.handler
     description: delete a product
@@ -140,4 +159,23 @@ functions:
         path: /api/http-example/products
         cors:
           origins: ${self:custom.originCors}
-    
+
+resources:
+  Resources:
+    UserTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.USER_TABLE_NAME}
+        AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: displayName
+          AttributeType: S
+        - AttributeName: email
+          AttributeType: S
+        KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
