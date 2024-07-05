@@ -4,9 +4,10 @@
   "description": "example",
   "scripts": {
     "lint": "eslint --fix --ext .jsx --ext .js --ext .ts --ext .tsx . --ignore-pattern '**/*.d.ts'",
-    "test": "jest --ci --collectCoverage --testPathIgnorePatterns=.build",
-    "test:dev": "npm run lint && jest --watchAll --collectCoverage  --testPathIgnorePatterns=.build",
-    "offline": "serverless offline start --stage qa --region us-east-1"
+    "test": "jest --ci --detectOpenHandles --collectCoverage --testPathIgnorePatterns=.build",
+    "test:dev": "npm run lint && jest --detectOpenHandles --watchAll --collectCoverage  --testPathIgnorePatterns=.build",
+    "offline": "serverless offline start --reloadHandler --stage dev --region us-east-1",
+    "pretty": "prettier --write \"src/**/*.ts\""
   },
   "repository": {
     "type": "git",
@@ -47,14 +48,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run pretty && npm run lint"
     }
-  },
-  "lint-staged": {
-    "*.ts": [
-      "eslint — fix",
-      "prettier — write",
-      "git add"
-    ]
   }
 }
