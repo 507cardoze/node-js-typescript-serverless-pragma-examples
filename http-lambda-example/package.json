@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "example",
   "scripts": {
-    "lint": "eslint --fix --ext .jsx --ext .js --ext .ts --ext .tsx . --ignore-pattern '**/*.d.ts'",
+    "lint": "eslint \"**/*.ts\"",
+    "lint-format": "eslint \"**/*.ts\" --fix",
     "test": "jest --ci --detectOpenHandles --collectCoverage --testPathIgnorePatterns=.build",
     "test:dev": "npm run lint && jest --detectOpenHandles --watchAll --collectCoverage  --testPathIgnorePatterns=.build",
     "offline": "serverless offline start --reloadHandler --stage dev --region us-east-1",
-    "pretty": "prettier --write \"src/**/*.ts\""
+    "pretty": "prettier --write \"**/*.ts\""
   },
   "repository": {
     "type": "git",
@@ -48,7 +49,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run pretty && npm run lint"
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run test"
     }
   }
 }
