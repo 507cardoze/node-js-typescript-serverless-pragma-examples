@@ -4,6 +4,7 @@ export const handler: (event: any, context: any) => any = async (event, context)
     body: JSON.stringify({
       message: 'Hello from Lambda!',
       input: event,
+      context,
     }),
   };
 };
