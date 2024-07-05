@@ -1,0 +1,143 @@
+service: http-lambda-example
+custom:
+  esbuild:
+    config: './esbuild.config.cjs'
+  tscpaths:
+    handlers: src/handlers
+    shared: src/shared
+    test: test
+  addLambdaPermission: true
+  prune:
+    automatic: true
+    number: 3
+  memorySize: 128
+  timeout: 29
+  originCors:
+  - https://my-company-domain.com
+
+plugins:
+- serverless-esbuild
+- serverless-tscpaths
+- serverless-plugin-resource-tagging
+- serverless-prune-plugin
+- serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${self:provider.environment.STAGE}
+  region: ${self:provider.environment.REGION}
+  architecture: arm64
+  tracing:
+    lambda: true
+  deploymentBucket:
+    name: ${self:provider.environment.DEPLOYMENT_BUCKET}
+  vpc:
+    securityGroupIds:
+    - 'Fn::ImportValue': ${self:provider.environment.VPC_SECURITY_GROUP_ID}
+    subnetIds:
+    - 'Fn::ImportValue': ${self:provider.environment.VPC_SUBNET_ID}
+  environment:
+    REGION: ${opt:region}
+    STAGE: ${opt:stage}
+    DEPLOYMENT_BUCKET: my-custom-bucket-${opt:stage}
+    VPC_SECURITY_GROUP_ID: aws-exampleSecurityGroupId-${opt:stage}
+    VPC_SUBNET_ID: aws-exampleSubnetId-${opt:stage}
+    API_GATEWAY_ID: aws-exampleApiGatewayId-${opt:stage}
+    API_GATEWAY_RESOURCE_ID: aws-exampleApiGatewayResourceId-${opt:stage}
+
+  apiGateway:
+    restApiId:
+      'Fn::ImportValue': ${self:provider.environment.API_GATEWAY_ID}
+    restApiResources:
+      /api/http-example/:
+        'Fn::ImportValue': ${self:provider.environment.API_GATEWAY_RESOURCE_ID}
+
+  # iam:
+  #   role:
+  #     statements:
+
+package:
+  individually: true
+  excludeDevDependencies: true
+
+functions:
+  list-all-products:
+    handler: src/handlers/list-all-products/list-all-products.handler
+    description: List all products
+    memorySize: ${self:custom.memorySize}
+    timeout: ${self:custom.timeout}
+    tags:
+      Name: list-all-products
+    events:
+    - http:
+        method: GET
+        integration: lambda
+        path: /api/http-example/products
+        cors:
+          origins: ${self:custom.originCors}
+    
+  get-product:
+    handler: src/handlers/get-product/get-product.handler
+    description: List all products
+    memorySize: ${self:custom.memorySize}
+    timeout: ${self:custom.timeout}
+    tags:
+      Name: get-product
+    events:
+    - http:
+        method: GET
+        integration: lambda
+        path: /api/http-example/products/{product_id}
+        request: 
+          parameters:
+            paths:
+              product_id: true
+        cors:
+          origins: ${self:custom.originCors}
+    
+  create-product:
+    handler: src/handlers/create-product/create-product.handler
+    description: create a product
+    memorySize: ${self:custom.memorySize}
+    timeout: ${self:custom.timeout}
+    tags:
+      Name: create-product
+    events:
+    - http:
+        method: POST
+        integration: lambda
+        path: /api/http-example/products
+        cors:
+          origins: ${self:custom.originCors}
+    
+  update-product:
+    handler: src/handlers/update-product/update-product.handler
+    description: update a product
+    memorySize: ${self:custom.memorySize}
+    timeout: ${self:custom.timeout}
+    tags:
+      Name: update-product
+    events:
+    - http:
+        method: PUT
+        integration: lambda
+        path: /api/http-example/products
+        cors:
+          origins: ${self:custom.originCors}
+    
+  delete-product:
+    handler: src/handlers/delete-product/delete-product.handler
+    description: delete a product
+    memorySize: ${self:custom.memorySize}
+    timeout: ${self:custom.timeout}
+    tags:
+      Name: delete-product
+    events:
+    - http:
+        method: DELETE
+        integration: lambda
+        path: /api/http-example/products
+        cors:
+          origins: ${self:custom.originCors}
+    
