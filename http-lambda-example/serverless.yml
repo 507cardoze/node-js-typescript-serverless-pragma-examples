@@ -1,7 +1,12 @@
 service: http-lambda-example
+
+frameworkVersion: "3"
+
 custom:
   esbuild:
     config: './esbuild.config.cjs'
+    bundle: true
+    minify: true
   tscpaths:
     handlers: src/handlers
     shared: src/shared
@@ -51,11 +56,14 @@ provider:
     DEPLOYMENT_BUCKET: my-custom-bucket-${opt:stage}
     VPC_SECURITY_GROUP_ID: aws-exampleSecurityGroupId-${opt:stage}
     VPC_SUBNET_ID: aws-exampleSubnetId-${opt:stage}
+    API_GATEWAY_ROOT_RESOURCE_ID: aws-exampleApiGatewayRootResourceId-${opt:stage}
     API_GATEWAY_ID: aws-exampleApiGatewayId-${opt:stage}
     API_GATEWAY_RESOURCE_ID: aws-exampleApiGatewayResourceId-${opt:stage}
     USER_TABLE_NAME: ${opt:stage}-user-table
 
   apiGateway:
+    restApiRootResourceId:
+        "Fn::ImportValue": ${self:provider.environment.API_GATEWAY_ROOT_RESOURCE_ID}
     restApiId:
       'Fn::ImportValue': ${self:provider.environment.API_GATEWAY_ID}
     restApiResources:

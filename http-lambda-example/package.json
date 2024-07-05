@@ -9,7 +9,8 @@
     "test:dev": "npm run lint-format && npm run pretty && jest --detectOpenHandles --watchAll --collectCoverage  --testPathIgnorePatterns=.build",
     "offline": "sls offline start --reloadHandler --stage dev --region us-east-1",
     "pretty": "prettier --write \"**/*.ts\"",
-    "install-dynamodb": "sls dynamodb install --stage dev --region us-east-1"
+    "install-dynamodb": "sls dynamodb install --stage dev --region us-east-1",
+    "package": "sls package --stage dev --region us-east-1"
   },
   "repository": {
     "type": "git",
