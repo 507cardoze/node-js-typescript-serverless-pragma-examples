@@ -14,5 +14,5 @@ export type IResponse = {
 export type LambdaResponseType = (
   error: Record<string, any> | string | unknown | null,
   successBody?: Record<string, any> | string | null | unknown,
-  statusDetail?: IStatusDetail
+  statusDetail?: IStatusDetail,
 ) => IResponse;
