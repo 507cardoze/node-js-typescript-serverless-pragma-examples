@@ -48,7 +48,9 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.525.0",
     "follow-redirects": "1.15.6",
-    "serverless-tscpaths": "0.0.8"
+    "serverless-tscpaths": "0.0.8",
+    "@sinclair/typebox": "0.31.2",
+    "dayjs": "1.11.9"
   },
   "overrides": {
     "serverless-dynamodb-local": {

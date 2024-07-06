@@ -7,7 +7,7 @@ export class DatabaseService {
   public static getInstance(): DynamoDBClient {
     if (!DatabaseService.instance) {
       const config = environment.DYNAMODB.IS_OFFLINE
-        ? { region: 'localhost', endpoint: 'http://localhost:8000' }
+        ? { region: environment.DYNAMODB.LOCAL_REGION, endpoint: environment.DYNAMODB.LOCAL_ENDPOINT }
         : { region: environment.DYNAMODB.STAGE };
 
       DatabaseService.instance = new DynamoDBClient(config);
