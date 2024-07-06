@@ -13,7 +13,7 @@ import environment from '@shared/environment';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 export class DatabaseService {
-  static instance: DynamoDBClient;
+  static instance: DynamoDBClient | null = null;
 
   public static getInstance(): DynamoDBClient {
     if (!DatabaseService.instance) {

@@ -5,8 +5,6 @@ export const responseHandler: LambdaResponseType = (error, successBody, statusDe
   if (error instanceof Error) {
     const status = environment.CODES.STATUS_CODE.find((s) => s.message === error.message);
 
-    console.error('ERROR: ', error);
-
     if (!status) {
       return {
         statusCode: environment.CODES.DEFAULT_ERROR_STATUS_CODE,
