@@ -30,17 +30,17 @@ type Identity = {
 };
 
 type IEvent = {
-  body: unknown;
+  body: any;
   method: string;
   principalId: string;
   stage: string;
   cognitoPoolClaims: CognitoPoolClaims;
   enhancedAuthContext: EnhancedAuthContext;
   headers: Headers;
-  query: Body;
-  path: Body;
+  query: any;
+  path: any;
   identity: Identity;
-  stageVariables: Body;
+  stageVariables: any;
   requestPath: string;
 };
 

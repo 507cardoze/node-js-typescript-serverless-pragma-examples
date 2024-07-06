@@ -77,5 +77,5 @@ export const validators = new Proxy(
 
       return (value: string) => FormatRegistry.Get(name)?.(value) ?? false;
     },
-  }
+  },
 ) as validatorsObjectType;

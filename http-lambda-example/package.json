@@ -10,7 +10,8 @@
     "offline": "sls offline start --reloadHandler --stage dev --region us-east-1",
     "pretty": "prettier --write \"**/*.ts\"",
     "install-dynamodb": "sls dynamodb install --stage dev --region us-east-1",
-    "package": "sls package --stage dev --region us-east-1"
+    "package": "sls package --stage dev --region us-east-1",
+    "create-dynamodb-table": "aws dynamodb create-table --table-name dev-products-table --attribute-definitions AttributeName=product_id,AttributeType=S --key-schema AttributeName=product_id,KeyType=HASH --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --endpoint-url http://localhost:8000"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@types/jest": "29.5.12",
     "@types/node": "20.11.24",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "7.1.1",
     "@typescript-eslint/parser": "7.1.1",
     "esbuild": "0.20.1",
@@ -35,6 +37,7 @@
     "jest": "29.7.0",
     "prettier": "3.2.5",
     "serverless": "3.38.0",
+    "serverless-dynamodb-local": "0.2.40",
     "serverless-esbuild": "1.51.0",
     "serverless-offline": "13.3.3",
     "serverless-plugin-resource-tagging": "1.2.0",
@@ -42,15 +45,16 @@
     "ts-jest": "29.1.2",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
-    "typescript": "5.3.3",
-    "serverless-dynamodb-local": "0.2.40"
+    "typescript": "5.3.3"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "3.525.0",
+    "@aws-sdk/client-dynamodb": "3.592.0",
+    "@aws-sdk/util-dynamodb": "3.592.0",
+    "@sinclair/typebox": "0.31.2",
+    "dayjs": "1.11.9",
     "follow-redirects": "1.15.6",
     "serverless-tscpaths": "0.0.8",
-    "@sinclair/typebox": "0.31.2",
-    "dayjs": "1.11.9"
+    "uuid": "10.0.0"
   },
   "overrides": {
     "serverless-dynamodb-local": {

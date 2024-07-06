@@ -19,7 +19,7 @@ custom:
   timeout: 29
   originCors:
   - https://my-company-domain.com
-  tableName: ${self:provider.environment.USER_TABLE_NAME}
+  tableName: ${self:provider.environment.PRODUCTS_TABLE_NAME}
   dynamodb:
     stages: ${self:provider.environment.STAGE}
     start:
@@ -60,6 +60,10 @@ provider:
     API_GATEWAY_ID: aws-exampleApiGatewayId-${opt:stage}
     API_GATEWAY_RESOURCE_ID: aws-exampleApiGatewayResourceId-${opt:stage}
     PRODUCTS_TABLE_NAME: ${opt:stage}-products-table
+    AWS_ACCESS_KEY_ID: 'xxxx'
+    AWS_SECRET_ACCESS_KEY: 'xxxx'
+    LOCAL_REGION: 'localhost'
+    LOCAL_ENDPOINT: 'http://localhost:8000'
 
   apiGateway:
     restApiRootResourceId:
@@ -82,7 +86,7 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
         Resource:
-        - 'arn:aws:dynamodb:${self:provider.environment.REGION}:${self:provider.environment.ACCOUNT_ID}:table/${self:provider.environment.USER_TABLE_NAME}'
+        - 'arn:aws:dynamodb:${self:provider.environment.REGION}:${self:provider.environment.ACCOUNT_ID}:table/${self:provider.environment.PRODUCTS_TABLE_NAME}'
 
 package:
   individually: true
@@ -149,7 +153,11 @@ functions:
     - http:
         method: PUT
         integration: lambda
-        path: /api/http-example/products
+        path: /api/http-example/products/{product_id}
+        request:
+          parameters:
+            paths:
+              product_id: true
         cors:
           origins: ${self:custom.originCors}
 
@@ -164,25 +172,29 @@ functions:
     - http:
         method: DELETE
         integration: lambda
-        path: /api/http-example/products
+        path: /api/http-example/products/{product_id}
+        request:
+          parameters:
+            paths:
+              product_id: true
         cors:
           origins: ${self:custom.originCors}
 
 resources:
   Resources:
-    UserTable:
+    ProductsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.USER_TABLE_NAME}
+        TableName: ${self:provider.environment.PRODUCTS_TABLE_NAME}
         AttributeDefinitions:
-        - AttributeName: userId
+        - AttributeName: product_id
           AttributeType: S
-        - AttributeName: displayName
+        - AttributeName: display_name
           AttributeType: S
         - AttributeName: email
           AttributeType: S
         KeySchema:
-        - AttributeName: userId
+        - AttributeName: product_id
           KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1

@@ -2,9 +2,14 @@ const DYNAMODB = {
   IS_OFFLINE: process.env.IS_OFFLINE === 'true',
   STAGE: process.env.STAGE || 'dev',
   PRODUCTS_TABLE_NAME: process.env.PRODUCTS_TABLE_NAME || 'dev-products-table',
-  LOCAL_REGION: 'localhost',
-  LOCAL_ENDPOINT: 'http://localhost:8000',
+  LOCAL_REGION: process.env.LOCAL_REGION || 'localhost',
+  LOCAL_ENDPOINT: process.env.LOCAL_ENDPOINT || 'http://localhost:8000',
+  LOCAL_AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY_ID || 'xxxx',
+  LOCAL_AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || 'xxxx',
 } as const;
+
+const DEFAULT_ERROR_STATUS_CODE = 500;
+const DEFAULT_SUCCESS_STATUS_CODE = 200;
 
 const STATUS = {
   RESOURCE_NOT_FOUND: 'Resource Not Found',
@@ -52,6 +57,8 @@ const STATUS_CODE = [
 const CODES = {
   STATUS,
   STATUS_CODE,
+  DEFAULT_ERROR_STATUS_CODE,
+  DEFAULT_SUCCESS_STATUS_CODE,
 } as const;
 
 const environment = {
