@@ -7,9 +7,8 @@ This project deploys a serverless API built with AWS Lambda and DynamoDB. It pro
 ## The project is structured as follows:
 
 **`src` folder:** Contains all source code.
-handlers folder: Houses handler files for each Lambda function.
-shared folder: Stores code that's shared across multiple Lambdas.
-Observations:
+* **`handlers` folder:** Houses handler files for each Lambda function.
+* **`shared` folder:** Stores code that's shared across multiple Lambdas.
 
 **Logical Separation:**
 Your separation of handlers, controllers, and services into distinct folders promotes maintainability.
@@ -95,27 +94,9 @@ The API provides the following endpoints:
     * `serverless-offline`: Enables local development with an offline API.
     * `serverless-dynamodb-local`: Provides a local DynamoDB instance for development.
 
-### Deployment
+## Local Development:
 
-This project uses environment variables to configure the deployment.
-
-* `REGION`: The AWS region for deployment (e.g., `us-east-1`).
-* `STAGE`: The deployment stage (e.g., `dev`, `prod`).
-* `ACCOUNT_ID`: Your AWS account ID.
-* `DEPLOYMENT_BUCKET`: The S3 bucket name for deployments (replace with a unique name).
-* `VPC_SECURITY_GROUP_ID`: The ID of the VPC Security Group (replace with your security group ID).
-* `VPC_SUBNET_ID`: The ID of the VPC Subnet (replace with your subnet ID).
-* `API_GATEWAY_ROOT_RESOURCE_ID`: (Import value from another stack if applicable).
-* `API_GATEWAY_ID`: (Import value from another stack if applicable).
-* `API_GATEWAY_RESOURCE_ID`: (Import value from another stack if applicable).
-* `PRODUCTS_TABLE_NAME`: The name of the DynamoDB table (use a unique name with stage prefix).
-* `AWS_ACCESS_KEY_ID`: Your AWS access key ID.
-* `AWS_SECRET_ACCESS_KEY`: Your AWS secret access key.
-
-## Local Development:**
-
-**(Optional)**
-
+**(Requirements)**
 * Make sure to have the AWS CLI installed and configured with your credentials. Although valid credentials are not necessary if you are testing locally.
 * Make sure to have the Serverless Framework installed globally: `npm install -g serverless` or `yarn global add serverless`.
 * It is also recommend to have `Eslint` and `prettier` installed in your code editor to keep the code clean and consistent.
@@ -135,3 +116,20 @@ This project uses environment variables to configure the deployment.
 All this is done automatically by the `husky` package.
 
 The end goal is to have a clean and consistent codebase and prevent errors from being pushed to the repository.
+
+### Deployment
+
+This project uses environment variables to configure the deployment.
+
+* `REGION`: The AWS region for deployment (e.g., `us-east-1`).
+* `STAGE`: The deployment stage (e.g., `dev`, `prod`).
+* `ACCOUNT_ID`: Your AWS account ID.
+* `DEPLOYMENT_BUCKET`: The S3 bucket name for deployments (replace with a unique name).
+* `VPC_SECURITY_GROUP_ID`: The ID of the VPC Security Group (replace with your security group ID).
+* `VPC_SUBNET_ID`: The ID of the VPC Subnet (replace with your subnet ID).
+* `API_GATEWAY_ROOT_RESOURCE_ID`: (Import value from another stack if applicable).
+* `API_GATEWAY_ID`: (Import value from another stack if applicable).
+* `API_GATEWAY_RESOURCE_ID`: (Import value from another stack if applicable).
+* `PRODUCTS_TABLE_NAME`: The name of the DynamoDB table (use a unique name with stage prefix).
+* `AWS_ACCESS_KEY_ID`: Your AWS access key ID.
+* `AWS_SECRET_ACCESS_KEY`: Your AWS secret access key.
