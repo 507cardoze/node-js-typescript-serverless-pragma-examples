@@ -6,17 +6,17 @@ export class ProductsController {
     this.service = service;
   }
 
-  async getProducts() {
+  public async getProducts() {
     return await this.service.getProducts();
   }
 
-  async createProduct(product: unknown) {
+  public async createProduct(product: unknown) {
     const validatedProduct = this.service.validateProduct(product);
 
     return await this.service.createProduct(validatedProduct);
   }
 
-  async getProduct(productId: unknown) {
+  public async getProduct(productId: unknown) {
     const validatedProductId = this.service.validateProductId(productId);
 
     const product = await this.service.getProduct(validatedProductId);
@@ -26,7 +26,7 @@ export class ProductsController {
     return product;
   }
 
-  async deleteProduct(productId: unknown) {
+  public async deleteProduct(productId: unknown) {
     const validatedProductId = this.service.validateProductId(productId);
 
     const productIdExists = await this.service.getProduct(validatedProductId);
@@ -38,7 +38,7 @@ export class ProductsController {
     return validatedProductId;
   }
 
-  async updateProduct(productId: unknown, product: unknown) {
+  public async updateProduct(productId: unknown, product: unknown) {
     const validatedProductId = this.service.validateProductId(productId);
     const validatedProduct = this.service.validateProduct(product);
 

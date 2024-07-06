@@ -5,13 +5,13 @@ import { ProductKeySchema, ProductSchema } from '@shared/schemas/product.schema'
 import generateUniqueKey from '@shared/common/generator';
 
 export class ProductService extends ProductValidatorService {
-  async getProducts() {
+  public async getProducts() {
     return await DatabaseService.getAllItems({
       TableName: environment.DYNAMODB.PRODUCTS_TABLE_NAME,
     });
   }
 
-  async createProduct(product: ProductSchema) {
+  public async createProduct(product: ProductSchema) {
     return await DatabaseService.putItem({
       TableName: environment.DYNAMODB.PRODUCTS_TABLE_NAME,
       Item: {
@@ -28,7 +28,7 @@ export class ProductService extends ProductValidatorService {
     });
   }
 
-  async getProduct(productId: ProductKeySchema) {
+  public async getProduct(productId: ProductKeySchema) {
     return await DatabaseService.getItem({
       TableName: environment.DYNAMODB.PRODUCTS_TABLE_NAME,
       Key: {
@@ -39,7 +39,7 @@ export class ProductService extends ProductValidatorService {
     });
   }
 
-  async deleteProduct(productId: ProductKeySchema) {
+  public async deleteProduct(productId: ProductKeySchema) {
     return await DatabaseService.deleteItem({
       TableName: environment.DYNAMODB.PRODUCTS_TABLE_NAME,
       Key: {
@@ -50,7 +50,7 @@ export class ProductService extends ProductValidatorService {
     });
   }
 
-  async updateProduct(productId: ProductKeySchema, product: ProductSchema) {
+  public async updateProduct(productId: ProductKeySchema, product: ProductSchema) {
     return await DatabaseService.putItem({
       TableName: environment.DYNAMODB.PRODUCTS_TABLE_NAME,
       Item: {
@@ -67,7 +67,7 @@ export class ProductService extends ProductValidatorService {
     });
   }
 
-  async getProductById(productId: ProductKeySchema) {
+  public async getProductById(productId: ProductKeySchema) {
     return await DatabaseService.getItem({
       TableName: environment.DYNAMODB.PRODUCTS_TABLE_NAME,
       Key: {
