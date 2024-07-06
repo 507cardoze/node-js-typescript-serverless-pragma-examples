@@ -19,11 +19,19 @@ export class ProductsController {
   async getProduct(productId: unknown) {
     const validatedProductId = this.service.validateProductId(productId);
 
-    return await this.service.getProduct(validatedProductId);
+    const product = await this.service.getProduct(validatedProductId);
+
+    if (!product) throw new Error(environment.CODES.STATUS.RESOURCE_NOT_FOUND);
+
+    return product;
   }
 
   async deleteProduct(productId: unknown) {
     const validatedProductId = this.service.validateProductId(productId);
+
+    const productIdExists = await this.service.getProduct(validatedProductId);
+
+    if (!productIdExists) throw new Error(environment.CODES.STATUS.RESOURCE_NOT_FOUND);
 
     await this.service.deleteProduct(validatedProductId);
 

@@ -24,7 +24,7 @@ export class DatabaseService {
         secretAccessKey: environment.DYNAMODB.LOCAL_AWS_SECRET_ACCESS_KEY,
       };
 
-      const config = environment.DYNAMODB.IS_OFFLINE ? localConfigs : { region: environment.DYNAMODB.STAGE };
+      const config = environment.DYNAMODB.IS_OFFLINE ? localConfigs : { region: environment.DYNAMODB.REGION };
 
       DatabaseService.instance = new DynamoDBClient(config);
     }

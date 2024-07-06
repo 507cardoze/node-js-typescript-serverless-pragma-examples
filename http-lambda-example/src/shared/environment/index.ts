@@ -1,6 +1,6 @@
 const DYNAMODB = {
   IS_OFFLINE: process.env.IS_OFFLINE === 'true',
-  STAGE: process.env.STAGE || 'dev',
+  REGION: process.env.REGION || 'us-east-1',
   PRODUCTS_TABLE_NAME: process.env.PRODUCTS_TABLE_NAME || 'dev-products-table',
   LOCAL_REGION: process.env.LOCAL_REGION || 'localhost',
   LOCAL_ENDPOINT: process.env.LOCAL_ENDPOINT || 'http://localhost:8000',

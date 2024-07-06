@@ -51,7 +51,6 @@
     "@aws-sdk/client-dynamodb": "3.592.0",
     "@aws-sdk/util-dynamodb": "3.592.0",
     "@sinclair/typebox": "0.31.2",
-    "dayjs": "1.11.9",
     "follow-redirects": "1.15.6",
     "serverless-tscpaths": "0.0.8",
     "uuid": "10.0.0"

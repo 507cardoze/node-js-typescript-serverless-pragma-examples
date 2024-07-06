@@ -29,7 +29,7 @@ module.exports = {
     'object-shorthand': 'warn',
     'newline-after-var': ['error', 'always'],
     '@typescript-eslint/no-unused-vars': [
-      'warn',
+      'error',
       {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
