@@ -13,19 +13,17 @@ This project deploys a serverless API built with AWS Lambda and DynamoDB. It pro
 **Logical Separation:**
 Your separation of handlers, controllers, and services into distinct folders promotes maintainability.
 
-**Potential for Redundancy:** If some code within shared is only used by a single Lambda, it might lead to unnecessary duplication.
+**Potential for Redundancy:** 
+If some code within shared is only used by a single Lambda, it might lead to unnecessary duplication.
 
 **Granular shared Folder Structure:**
-
 Consider creating subfolders within shared to categorize shared code based on functionality (e.g., `shared/database`, `shared/utils`). This enhances organization and reusability.
 Lambda-Specific Code Placement:
 
 If code within shared is truly specific to a single Lambda, it might be better to move it directly into that Lambda's folder (e.g., `src/handlers/myLambdaHandler/myLambdaService.ts`). This reduces redundancy and keeps related code together.
 Clear Documentation:
 
-In your documentation, explicitly state the purpose and usage guidelines for the shared folder. Mention when to place code in shared vs. a specific Lambda's folder.
-
-## Here are some key benefits you can highlight when advocating for this folder structure and documentation approach for your Node.js serverless Lambda codebase in AWS with TypeScript:
+## Here are some key benefits when advocating for this folder structure and documentation approach for your Node.js serverless Lambda codebase in AWS with TypeScript:
 
 **Clear Separation of Concerns:** Separating handlers, controllers, and services into distinct folders enhances code organization and understanding. Developers can easily locate specific functionalities within a Lambda.
 
@@ -41,25 +39,7 @@ In your documentation, explicitly state the purpose and usage guidelines for the
 
 **Enhanced Collaboration:** A standardized folder structure and documentation enable better collaboration among team members, as everyone follows a consistent approach to code organization.
 
-**Simplified Unit Testing:** Separation of concerns makes unit testing of individual components (handlers, controllers, services) more straightforward.
-
-## Additional Selling Points:
-
-**Scalability:** This structure readily accommodates future growth of your Lambda functions with minimal impact on existing code.
-
-**Best Practices Alignment:** It demonstrates adoption of recommended practices for serverless development, making your codebase more professional and future-proof.
-
-**Remember:** When presenting these benefits, tailor your message to your audience. For developers, emphasize the maintainability and efficiency advantages. For managers, highlight the benefits of improved collaboration and reduced redundancy.
-
-While your folder structure and separation of concerns don't directly map to a single, well-defined design pattern, they do incorporate elements from several patterns that contribute to the overall benefits you've described. Here's a breakdown of some relevant patterns:
-
-* **Layered Architecture:** The separation of handlers, controllers, and services aligns with the layered architecture pattern. This pattern promotes loose coupling, where each layer has a well-defined responsibility and interacts with adjacent layers through defined interfaces. This approach facilitates maintainability and testability.
-
-* **Separation of Concerns (SoC):** The core principle behind your folder structure is SoC. By grouping related functionalities (handlers, controllers, services) into distinct folders, the code becomes easier to understand, modify, and maintain. Developers can focus on specific areas of the code without getting bogged down in unrelated details.
-
-* **Repository Pattern (Optional):** If your shared folder houses data access logic (e.g., database connections, queries), it might loosely resemble the repository pattern. This pattern aims to encapsulate data access logic within a dedicated repository class, promoting data abstraction and reusability.
-
-It's important to note that these patterns are often used in combination to create robust and maintainable codebases. Your approach effectively leverages these principles without strictly adhering to any single pattern.  The key takeaway is that the structure you've implemented promotes many of the benefits associated with these design patterns.
+**Simplified Unit Testing:** Separation of concerns makes unit testing of individual components (handlers, controllers, services) more straightforward. This leads to more effective testing strategies and better code coverage.
 
 ### Features
 
