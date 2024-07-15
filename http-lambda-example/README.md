@@ -13,15 +13,10 @@ This project deploys a serverless API built with AWS Lambda and DynamoDB. It pro
 **Logical Separation:**
 Your separation of handlers, controllers, and services into distinct folders promotes maintainability.
 
-**Potential for Redundancy:** 
-If some code within shared is only used by a single Lambda, it might lead to unnecessary duplication.
-
 **Granular shared Folder Structure:**
 Consider creating subfolders within shared to categorize shared code based on functionality (e.g., `shared/database`, `shared/utils`). This enhances organization and reusability.
-Lambda-Specific Code Placement:
 
 If code within shared is truly specific to a single Lambda, it might be better to move it directly into that Lambda's folder (e.g., `src/handlers/myLambdaHandler/myLambdaService.ts`). This reduces redundancy and keeps related code together.
-Clear Documentation:
 
 ## Here are some key benefits when advocating for this folder structure and documentation approach for your Node.js serverless Lambda codebase in AWS with TypeScript:
 
